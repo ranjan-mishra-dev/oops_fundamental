@@ -2,7 +2,11 @@ package SolidPrincipleExercise.SRP;
 
 public class SRP_user_followed {
     public static void main(String[] args) {
-        UserService us = new UserService();
+        Validator validator = new Validator();
+        Saver saver = new Saver();
+        Notify notify = new Notify();
+
+        UserService us = new UserService(validator, saver, notify);
         us.register("ranjan@gmail.com", "123456");
     }    
 }
@@ -40,10 +44,10 @@ class UserService {
     private Saver save;
     private Notify notificationService;
 
-    public UserService() {
-        validate = new Validator();
-        save = new Saver();
-        notificationService = new Notify();
+    public UserService(Validator validator, Saver saver, Notify notify) {
+        validate = validator;
+        save = saver;
+        notificationService = notify;
     }
 
     public void register(String email, String password) {
@@ -57,6 +61,9 @@ class UserService {
         }
     }
 }
+
+/*actually i was thinking this UserService cls following SRP but today i found if new db saver arrived, or new notification service arrived
+i have to come again and do changes that shows i have more than 1 reason to change this cls, it's better to take it out from them */
 
 class Validator {
 
